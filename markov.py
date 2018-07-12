@@ -87,7 +87,7 @@
 
 from random import choice
 import twitter
-
+import os
 
 def open_and_read_file(file_path):
     """Take file path as string; return text as string.
@@ -143,7 +143,7 @@ def make_chains(text_string):
                 break
             chains[new_tuple] = [words[i+2]]
 
-    # print(chains)
+    #print(chains)
 
     return chains
 
@@ -184,16 +184,17 @@ def send_tweet(chains):
 
     chains = make_text(chains)
 
-    api = twitter.Api(consumer_key='TWITTER_CONSUMER_KEY',
-                      consumer_secret='TWITTER_CONSUMER_SECRET',
-                      access_token_key='TWITTER_ACCESS_TOKEN_KEY',
-                      access_token_secret='TWITTER_ACCESS_TOKEN_SECRET')
-    print(api)
+    api = twitter.Api(consumer_key=os.environ['TWITTER_CONSUMER_KEY'],
+                      consumer_secret=os.environ['TWITTER_CONSUMER_SECRET'],
+                      access_token_key=os.environ['TWITTER_ACCESS_TOKEN_KEY'],
+                      access_token_secret=os.environ['TWITTER_ACCESS_TOKEN_SECRET'])
+    # print(api)
     status = api.PostUpdate(chains)
-    print(status)
+    print(status.text)
 
 
-input_path = "green-eggs.txt"
+# input_path = "green-eggs.txt"
+input_path = "song-philosophy-mashup.txt"
 
 # Open the file and turn it into one long string
 input_text = open_and_read_file(input_path)
